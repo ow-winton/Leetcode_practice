@@ -69,4 +69,4 @@ node2.left = node4
 node2.right = node5
 node4.left = node6
 node1.traverse()
-111
+
