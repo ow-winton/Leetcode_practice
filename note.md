@@ -1,4 +1,7 @@
 # 目录
+
+# labuladong 代码整理
+- [chapter2](#第二章)
 # 简单题目
 - [移动零](#移动零)
 - [twosum](#twosum)
@@ -8,8 +11,79 @@
 - [字母异位词 ](#字母异位词 )
 - [最多水的容器](#最多水的容器)
 - [三数之和](#三数之和)
+***5/4/2024 day2***
+# labuladong 学习之路
+# 第二章
+1. 首先这里编写的是最简单的python数组遍历结构，这个结构是一个线性结构，并不难理解
+```commandline
+def traverse(arr:List[int]):
+    for i in range(len(arr)):
+        print(i)
+arr=[1,2,3,4,5,6]
+traverse(arr)
+```
+
+2. 链表遍历的python写法 两种：1. 线性 2.非线性递归
+```commandline
+class ListNode:
+    def __init__(self, val):
+        self.val = val
+        self.next = None
+
+    def traverse(head):
+        p = head
+        while p is not None:
+            print(p.val)  # 做一些操作，这里简单打印节点的值
+            p = p.next
+
+    def traverse_recursive(head) -> None:
+        def traverse(head):
+            if head is None:
+                return
+            print(head.val)  # 这里进行相应的操作，这里简单打印节点的值
+            traverse(head.next)
+        traverse(head)
+node1 = ListNode(1)
+node2 = ListNode(2)
+node3 = ListNode(3)
+
+# 构建链表关系
+node1.next = node2
+node2.next = node3
+
+# 遍历链表
+
+node1.traverse_recursive()
+```
+# 树型结构的遍历
+## 注意的点
+1. python无法异构函数，所以要定义多个函数
+2. 递归调用函数最外层无法递归，因为会报错没有定义，所以要在函数内部定义嵌套函数，用嵌套函数实现递归
+针对这个的原因
+```
+为什么内部函数可以递归调用呢？这是因为当你调用一个函数时，Python 解释器会在当前作用域中查找该函数的定义。如果在当前作用域中找不到该函数的定义，解释器会向上一级作用域继续查找，直到找到为止。而内部函数是定义在外部函数的作用域内的，因此当内部函数调用自身时，解释器会在外部函数的作用域中找到函数定义，从而可以成功地进行递归调用。
+
+相反，如果你在外部函数内部调用外部函数自身，那么解释器会在当前作用域中找不到函数定义，因为函数的定义不在当前作用域内，从而导致找不到函数定义的错误
+```
+```commandline
+class treenode:
+    def __init__(self,val = 0,left = None,right = None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+    def traverse(root):
+
+        def tra(root):
+            if root is None:
+                return
+            print(root.val)
+            tra(root.left)
+            tra(root.right)
+        tra(root)
 
 
+```
 ***5/3/2024 day1***（6道题）
 # leetcode做题记录
 
