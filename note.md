@@ -1,5 +1,39 @@
  ***5/3/2024***
 # leetcode做题记录
+
+# 最长连续序列
+```commandline
+
+nums = [100,4,200,1,3,2]
+from typing import List
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        nums_set = set(nums)
+        longest_se = 0
+        for i in nums_set:
+            if i-1 not in nums_set:
+                current_num = i
+                len_se = 1
+            while current_num+1 in nums_set:
+                current_num+=1
+                len_se+=1
+            longest_se = max(longest_se,len_se)
+
+        return longest_se
+
+
+sol = Solution()
+print(sol.longestConsecutive(nums))
+
+```
+## 总结
+这个题其实也很简单，理解难度也不高
+1. 总结来说意思就是先判断这个数字可不可能是最长连续序列的起始值，这个通过判断这个数字-1是否存在在序列中来判断
+2. 如果它是起始值才进行后续，不是就跳到下一个数字
+3. 如果是起始值，那么用while循环累加判断这个数+1是否存在于序列里面，然后循环判断这一轮的序列长度是多少
+4. 判断清楚序列长度以后与当前最长序列的长度进行对比取大，最终返回最大值
+## 注意的点
+1. 注意序列可能有重复值，用```set()```方法进行一次去重。
 # 字母异位词 
 ## 哈希解法
 ```commandline

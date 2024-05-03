@@ -7,5 +7,20 @@ nums = [100,4,200,1,3,2]
 from typing import List
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
-        dict={}
-        sorted(nums)
+        nums_set = set(nums)
+        longest_se = 0
+        for i in nums_set:
+            if i-1 not in nums_set:
+                current_num = i
+                len_se = 1
+            while current_num+1 in nums_set:
+                current_num+=1
+                len_se+=1
+            longest_se = max(longest_se,len_se)
+
+        return longest_se
+
+
+sol = Solution()
+print(sol.longestConsecutive(nums))
+
