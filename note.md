@@ -6,9 +6,165 @@
 # 中等题目
 - [最长连续序列](##最长连续序列)
 - [字母异位词 ](#字母异位词 )
-***5/3/2024 day1***
+- [最多水的容器](#最多水的容器)
+
+
+***5/3/2024 day1***（6道题）
 # leetcode做题记录
 
+# 三数之和
+## 难点
+1. 难点在于去除重复解，如我提供的错误超时解，它在最后才开始去除错误解，导致超时
+2. 为此需要在算法进行中就把重复解去除，其实也很简单，判断一下当前项和下一项一不一样就行了
+3. 对于提供的性能较差的解需要注意的点是对i的限制条件是```if i>0 and nums[i]==nums[i-1]:```,如果不这样限制，而是```if nums[i]==nums[i+1] ```这样的情况会缺少解，所以这告诉我们去重的时候要考虑到先执行一次，然后第二次的时候判断前面出没出现过，而不是还没执行判断后续会重复就直接跳过，这会导致返回的结果缺少解
+
+## 性能稍好的解
+这个比刚刚提高了一点性能，但不多，我也不知道什么是高性能算法了，就这样把
+```commandline
+class Solution1:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+#首先排序
+        nums = sorted(nums)
+        l = len(nums)
+        result = []
+        k =0
+        for k in range(l-2):
+            if nums[k]>0:
+                break
+            if k>0 and nums[k]==nums[k-1]:
+                continue
+            i = k+1
+            j = l-1
+            while i <j:
+                s = nums[i]+nums[j]+nums[k]
+                if s <0:
+                    i+=1
+                    while i<j and nums[i]==nums[i-1]:i+=1
+                elif s>0:
+                    j-=1
+                    while i<j and nums[j]==nums[j+1]:j-=1
+                else:
+                    result.append([nums[k],nums[i],nums[j]])
+                    i+=1
+                    j-=1
+                    while i < j and nums[i] == nums[i - 1]: i += 1
+                    while i < j and nums[j] == nums[j + 1]: j -= 1
+        return result
+sol = Solution1()
+print(sol.threeSum(nums))
+
+```
+## 性能较差的解
+这个解释能正常通过测试，但是性能太差
+```commandline
+from typing import List
+nums = [-1,0,1,2,-1,-4]
+nums = [-4,-1,-1,0,1,2]
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+#首先排序
+        nums = sorted(nums)
+        l = len(nums)
+        result = []
+
+        for i in range(l-2):
+            if i>0 and nums[i]==nums[i-1]:
+                continue
+            j = i + 1
+            k = l - 1
+            while j<k:
+                sum = nums[i]+nums[j]+nums[k]
+                if sum ==0:
+                    result.append([nums[i], nums[j], nums[k]])
+                    while j<k and nums[j] ==nums[j+1]:
+                        j+=1
+                    while j<k and nums[k] ==nums[k-1]:
+                        k-=1
+                    j+=1
+                    k -= 1
+                elif nums[i]+nums[j]+nums[k]<0:
+                    j+=1
+                else:
+                    k -= 1
+
+        return result
+sol = Solution()
+print(sol.threeSum(nums))
+
+```
+
+## 超时的错误解（能输出正确结果，但是超时）
+```commandline
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+#首先排序
+        nums = sorted(nums)
+        l = len(nums)
+        result = []
+
+        for i in range(l-2):
+            j = i + 1
+            k = l - 1
+            while j<k:
+                sum = nums[i]+nums[j]+nums[k]
+                if sum ==0:
+                    result.append([nums[i], nums[j], nums[k]])
+                    j+=1
+                    k -= 1
+                elif nums[i]+nums[j]+nums[k]<0:
+                    j+=1
+                else:
+                    k -= 1
+        final_result = []
+        for i in result:
+            if i not in final_result:
+                final_result.append(i)
+        return final_result
+sol = Solution()
+print(sol.threeSum(nums))
+
+```
+# 最多水的容器
+## 两指针
+```commandline
+a = [1,8,6,2,5,4,8,3,7]
+from typing import List
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        maxL= 0
+        left = 0
+        right = len(height)-1
+        while left<right:
+            if height[left]>height[right]:
+                maxL = max(maxL,(right-left)*height[right])
+                right -= 1
+            else:
+                maxL= max(maxL,(right-left)*height[left])
+                left += 1
+        return maxL
+sol = Solution()
+print(sol.maxArea(a))
+
+```
+
+## 注意点
+1. 注意计算完面积再迭代，否则会出错
+## 暴力迭代（能出解，但是会超时）
+```commandline
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        maxL= 0
+        for i in range(len(height)):
+            for j in range(len(height)):
+                if i!=j:
+                    k = min(height[i],height[j])
+                    l = k*abs(i-j)
+                    maxL = max(maxL,l)
+        return maxL
+
+
+
+```
 # 移动零
 
 ## 错误解
