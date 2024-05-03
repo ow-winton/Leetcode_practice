@@ -1,10 +1,33 @@
  ***5/3/2024***
-# 第一天更新leetcode做题记录
- 今天解决的第一个问题是twoSum
+# leetcode做题记录
+# 字母异位词 
+## 哈希解法
+```commandline
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        dict = {}
+        for st in strs:
+            key = "".join(sorted(st))
+            if key not in dict:
+                dict[key]=[]
+            dict[key].append(st)
+        return list(dict.values())
+
+s = Solution()
+print(s.groupAnagrams(strs))
+```
+## 注意的点
+1. 通过对所有单词sort能检查单词是否相同
+2. 对比后相同的单词有着同样的标志词***key***
+3. 在哈希表中同一个key对应着多个异位词语，他们用列表存放到key对应的value中
+4. 需要注意，在存放key时候，要判断key不在dict里的时候要进行初始化，否则无法直接皴法。在存放到列表的时候，要对存放的单词的列表进行初始化
+
+# twoSum
  两种解法
 
 ## 暴力枚举
-```nums = [2,7,11,15]
+```
+nums = [2,7,11,15]
 target = 9
 #方法一 时间复杂度n2 空间复杂度1
 from typing import List
