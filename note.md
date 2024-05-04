@@ -11,7 +11,95 @@
 - [字母异位词 ](#字母异位词 )
 - [最多水的容器](#最多水的容器)
 - [三数之和](#三数之和)
+
+
 ***5/4/2024 day2***
+# 今日题目总结
+## 滑动窗口
+### 无重复字符的最长子串
+```commandline
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        #进行声明
+        # 设置一个滑动窗口
+        sliding_window =set()# 集合是不允许重复的
+        # 数组长度length
+        length = len(s)
+        # 当前长度 current len
+        current_l = 0
+        # 最长长度 max_length
+        max_l = 0
+        left = 0
+
+        #进行迭代
+        for item in range(length):
+            current_l+=1
+            while s[item] in sliding_window:
+
+                sliding_window.remove(s[left])
+                left+=1
+                current_l-=1
+
+            max_l = max(max_l,current_l)
+            sliding_window.add(s[item])
+
+        return max_l
+
+```
+#### 注意点
+1. 设置滑动窗口应该是集合，保证当前数组没重复元素
+
+### 找到字符串中所有字母异位词
+#### 列表滑动窗口求解（性能差，但是是我的构思）
+```commandline
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+#设计两个列表记录词语的词频
+# 比如abd 的列表就是[1,1,0,1,0,,0....]
+#首先对于 p的词频统计
+        p_cipin = [0]*26
+        s_cipin = [0]*26
+        res =[]
+        if len(s) < len(p): return res
+        for i in range(len(p)):
+            p_cipin[ord(p[i])-ord("a")]+=1
+            s_cipin[ord(s[i])-ord("a")]+=1
+        if s_cipin==p_cipin:
+            res.append(0)
+
+        for i in range(len(p),len(s)):
+            s_cipin[ord(s[i])-ord("a")]+=1
+            s_cipin[ord(s[i-len(p)])-ord("a")]-=1
+            if s_cipin==p_cipin:
+                res.append(i-len(p)+1)
+        return res
+
+```
+
+#### 词频统计滑动窗口
+```commandline
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+#设计两个列表记录词语的词频
+# 比如abd 的列表就是[1,1,0,1,0,,0....]
+#首先对于 p的词频统计
+        p_cipin = [0]*26
+        s_cipin = [0]*26
+        res =[]
+        if len(s) < len(p): return res
+        for i in range(len(p)):
+            p_cipin[ord(p[i])-ord("a")]+=1
+            s_cipin[ord(s[i])-ord("a")]+=1
+        if s_cipin==p_cipin:
+            res.append(0)
+
+        for i in range(len(p),len(s)):
+            s_cipin[ord(s[i])-ord("a")]+=1
+            s_cipin[ord(s[i-len(p)])-ord("a")]-=1
+            if s_cipin==p_cipin:
+                res.append(i-len(p)+1)
+        return res
+```
 # labuladong 学习之路
 # 第二章
 1. 首先这里编写的是最简单的python数组遍历结构，这个结构是一个线性结构，并不难理解
