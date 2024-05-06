@@ -13,6 +13,84 @@
 - [三数之和](#三数之和)
 - [无重复字符的最长子串](#无重复字符的最长子串)
 - [找到字符串中所有字母异位词](#找到字符串中所有字母异位词)
+***5/5/2024 day3***
+
+## 二叉树
+### 总结
+二叉树的递归题结构无非就是
+    def traverse(root)
+        设置递归终止条件
+        root.val
+        traverse(root.left)
+        traverse(root.right,deep)
+    maxDeep = 0
+    traverse(root,0)
+    return maxDeep
+
+### 二叉树的最大深度
+```commandline
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        def traverse(root,deep):
+            if root is None:
+                return
+            deep+=1
+            nonlocal maxDeep
+            maxDeep = max(maxDeep,deep)
+            traverse(root.left,deep)
+            traverse(root.right,deep)
+        maxDeep = 0
+        traverse(root,0)
+        return maxDeep
+```
+### 二叉树的中序遍历
+```commandline
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        def traverse(root):
+            if root is None:
+                return
+            traverse(root.left)
+            nonlocal res
+            res.append(root.val)
+            traverse(root.right)
+
+        res = []
+        traverse(root)
+        return res
+```
+### 二叉树的前序遍历
+```commandline
+class Solution:
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        def traverse(root):
+            if root is None:
+                return
+            nonlocal res
+            res.append(root.val)
+            traverse(root.left)
+            traverse(root.right)
+        
+        res = []
+        traverse(root)
+        return res
+```
+### 二叉树的后序遍历
+```commandline
+class Solution:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        def traverse(root):
+            if root is None:
+                return
+            traverse(root.left)            
+            traverse(root.right)
+            nonlocal res
+            res.append(root.val)
+        res= []
+        traverse(root)
+        return res
+
+```
 
 ***5/4/2024 day2***
 # 今日题目总结
