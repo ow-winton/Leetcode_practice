@@ -22,7 +22,37 @@
        目标序列.index(当前序列[当前序列索引]) 这个返回的就是目标序列中,我们搜索的值的索引
        root = inorder.index(preorder[2])
 ```
+2. 等效写法
+```commandline
+if not k:
+    return 0
+```
+等效于
+```commandline
+if len(k) !=0:
+    return 0
+```
+***5/8/2024 day6***
+### 零钱兑换
+#### 递归解法（性能太差，不能真正解决问题）
+```commandline
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        def traverse(amount):
+            res = inf
+            if amount == 0:
+                return 0
+            if amount <0:
+                return -1
+            for coin in coins:
+                shengyucoin = traverse(amount-coin)
+                if shengyucoin== -1:continue
+                res = min(res,shengyucoin+1)
 
+            return res if res !=inf else -1
+        return traverse(amount)
+
+```
 ***5/7/2024 day5***
 ***5/6/2024 day4***
 ***5/5/2024 day3***
